@@ -1,4 +1,6 @@
 import os
+import pickle
+
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.metrics import accuracy_score
@@ -36,8 +38,19 @@ X_features = vectorizer.fit_transform(X)
 # Initialize and train the Decision Tree Classifier
 clf = DecisionTreeClassifier()
 clf.fit(X_features, y)
+clf.score(X_features, y)
+clf.fit(X_features, z)
+# Save the model as a pickle file
+with open('vulnerability_detection_model.pkl', 'wb') as model_file:
+    pickle.dump(clf, model_file)
+
+with open('vectorizer.pkl', 'wb') as vectorizer_file:
+    pickle.dump(vectorizer, vectorizer_file)
+
+with open('vulnerability_names.pkl', 'wb') as vulnerability_names_file:
+    pickle.dump(z, vulnerability_names_file)
 
 # Save the model for later use
-joblib.dump(clf, 'vulnerability_detection_model.joblib')
+joblib.dump(clf, 'vulnerability_detection_model.joblib', protocol=4)
 joblib.dump(vectorizer, 'vectorizer.joblib')
 joblib.dump(z, 'vulnerability_names.joblib')

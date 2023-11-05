@@ -1,1 +1,10 @@
-flask
+distlib
+Flask
+Flask-Cors
+Flask-WTF
+gunicorn
+numpy
+oauthlib
+pandas
+joblib
+scikit-learn=1.2.2
