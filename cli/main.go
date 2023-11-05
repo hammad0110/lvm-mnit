@@ -9,7 +9,7 @@ import (
 )
 
 func main() {
-	filePath := `C:\Users\lisha\OneDrive\Documents\example_code.go`
+	filePath := `C:\Users\lisha\OneDrive\Documents\example_code.go` 
 	code, err := readFile(filePath)
 	if err != nil {
 		fmt.Println("Error reading file:", err)
@@ -66,6 +66,12 @@ func findVulnerabilities(code string) string {
 		matchedXSS, _ := regexp.MatchString(xssPattern, line)
 
 		// ... (similar checks for other vulnerabilities)
+		bufferOverflowPattern := `\b(buffer\s*overflow|heap\s*overflow)\b`
+		matchedBufferOverflow, _ := regexp.MatchString(bufferOverflowPattern, line)
+
+		if matchedBufferOverflow {
+			vulnerableLines = append(vulnerableLines, fmt.Sprintf("Potential buffer overflow vulnerability found at line %d: %s", i+1, line))
+		}
 
 		if matchedSQLInjection {
 			vulnerableLines = append(vulnerableLines, fmt.Sprintf("Potential SQL injection vulnerability found at line %d: %s", i+1, line))
