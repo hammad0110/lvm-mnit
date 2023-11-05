@@ -1,0 +1,50 @@
+name: Security Vulnerability Detection
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  security_scan:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - name: Set Up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14' # Use a compatible Node.js version
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Run Security Scan
+        run: |
+          # Replace this with the command to run your security scanning CLI
+          ml-code-scan scan /path/to/code/directory
+
+      - name: Upload Scan Results
+        uses: actions/upload-artifact@v2
+        with:
+          name: security-scan-results
+          path: /cli/output_file.txt # Adjust the path to your CLI's output
+
+      - name: Comment on Pull Request
+        if: always()
+        uses: actions/github-script@0.7.0
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const artifactLink = `<a href="${process.env.GITHUB_SERVER_URL}/${process.env.GITHUB_REPOSITORY}/actions/artifacts/${{ github.run_id }}/security-scan-results">Security Scan Results</a>`;
+            github.issues.createComment({
+              issue_number: context.issue.number,
+              repository: context.repo.repo,
+              owner: context.repo.owner,
+              body: `Security scan results: ${artifactLink}`,
+            })
