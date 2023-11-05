@@ -1,0 +1,8 @@
+During  our 24hr hackathon at MNIT Jaipur , we chose the problem statement- Develop a tool that can use AI to automatically identify and fix security vulnerabilities in software code.
+
+The solution and approach to this problem statement is as follows :
+ 
+1. Developing a Command Line Interface for testing the source code and using the api calls from ml model to detect security vulnerabilities in source code .
+2. Using CI/CD for automation of threat(CSS , SQL injection etc) removal and vulnerabilities .
+3. Creating a vs code etension that scans the input file provided from user . It will check for vulnerability in the source code and all other files of the directory.
+   If any vulnerability is detected iit will try to log the error and try to detect the error using ml model.
